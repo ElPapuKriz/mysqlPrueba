@@ -20,7 +20,7 @@ export const getUserById = async (req: Request, res: Response) => {
         }
         res.json(user);
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener usuario' });
+        res.status(500).json({ msg: 'Error al obtener usuario',error });
     }
 };
 
