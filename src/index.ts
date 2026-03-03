@@ -6,18 +6,20 @@ const app = express();
 
 app.use(express.json());
 
-/* app.use("/",(req,res)=>{
+app.get("/",(req,res)=>{
+    
     res.json({
-        creator:"Christopher Pazo Dev",
-        endPoints:[
-            "GET Obtener todos los usuarios /api/users",
-            "GET Obtener usuario por id /api/users/:id",
-        ]
+        msg: 'Api de geely',
+        endPoints:{
+            'GET api/users/':"Obtener todos los usuarios",
+            'GET api/users/:id':"Obtener usuario por Id",
+            'POST api/users/':"Crear nuevo usuario",
+        }
     })
-}) */
+})
 
 app.use('/api/users', userRoutes);
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3306;
 app.listen(PORT, () => { console.log('Corriendo servidor.') })

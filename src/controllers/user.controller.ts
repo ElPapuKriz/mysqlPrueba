@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UserModel } from '../models/user.model';
+import { userCreated, UserModel } from '../models/user.model';
 
 
 export const getUsers = async (req: Request, res: Response) => {
@@ -7,7 +7,7 @@ export const getUsers = async (req: Request, res: Response) => {
         const users = await UserModel.findAll();
         res.json(users);
     } catch (error) {
-        res.status(500).json({ msg: 'Error al obtener usuarios',error });
+        res.status(500).json({ msg: 'Error al obtener usuarios', error });
     }
 };
 
@@ -20,33 +20,33 @@ export const getUserById = async (req: Request, res: Response) => {
         }
         res.json(user);
     } catch (error) {
-        res.status(500).json({ msg: 'Error al obtener usuario',error });
+        res.status(500).json({ msg: 'Error al obtener usuario', error });
     }
 };
 
-export const createUser = async (req:Request,res:Response)=>{
-    const {name , email} = req.body;
+export const createUser = async (req: Request, res: Response) => {
+    const { user_login, user_pass, user_email}: userCreated = req.body;
 
-    if(!name || !email){
+    if (!user_login || !user_pass || !user_email) {
         res.status(400).json({
-            error:"name y email son requeridos"
+            error: "user_login, user_pass y user_email son requeridos"
         });
-        return
+        return;
     }
 
     try {
-        const result = await UserModel.create(name,email);
-        res.status(201).json({id:result.insertId,name:name,email:email})
+        const newUser = await UserModel.create({ user_login, user_pass, user_email });
+        res.status(201).json(newUser);
     } catch (error: any) {
         if (error.code === "ER_DUP_ENTRY") {
             res.status(409).json({
-                error:"Email ya registrado"
-            })
+                error: "El usuario o email ya está registrado"
+            });
             return;
         }
         res.status(500).json({
-            msg:"Error al registrar usuario",
+            msg: "Error al registrar usuario",
             error,
-        })
+        });
     }
-}
+};
