@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { userCreated, UserModel } from '../models/user.model';
+import {  UserModel } from '../models/user.model';
+import { userCreated } from '../types/userCreated.type';
 
 
 export const getUsers = async (req: Request, res: Response) => {
@@ -25,17 +26,17 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 export const createUser = async (req: Request, res: Response) => {
-    const { user_login, user_pass, user_email}: userCreated = req.body;
+    const { name_student,lastname_student,email}: userCreated = req.body;
 
-    if (!user_login || !user_pass || !user_email) {
+    if (!name_student || !lastname_student || !email) {
         res.status(400).json({
-            error: "user_login, user_pass y user_email son requeridos"
+            error: "name_student, lastname_student and email are required",
         });
         return;
     }
 
     try {
-        const newUser = await UserModel.create({ user_login, user_pass, user_email });
+        const newUser = await UserModel.create({ name_student,lastname_student,email });
         res.status(201).json(newUser);
     } catch (error: any) {
         if (error.code === "ER_DUP_ENTRY") {

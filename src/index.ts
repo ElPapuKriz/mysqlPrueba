@@ -9,16 +9,16 @@ app.use(express.json());
 app.get("/",(req,res)=>{
     
     res.json({
-        msg: 'Api de geely',
+        msg: 'Api estudiantes',
         endPoints:{
-            'GET api/users/':"Obtener todos los usuarios",
-            'GET api/users/:id':"Obtener usuario por Id",
-            'POST api/users/':"Crear nuevo usuario",
+            'GET api/students/':"Obtener todos los estudiantes",
+            'GET api/students/:id':"Obtener estudiante por Id",
+            'POST api/students/':"Crear nuevo estudiante",
         }
     })
 })
 
-app.use('/api/users', userRoutes);
+app.use('/api/students', userRoutes);
 
 
 const PORT = process.env.PORT || 3306;
